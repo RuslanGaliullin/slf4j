@@ -423,10 +423,8 @@ public final class LoggerFactory {
     }
 
     public static Logger getLogger() {
-        ILoggerFactory iLoggerFactory = getILoggerFactory();
-        String name = getCallingClassName();
-        
-        return iLoggerFactory.getLogger(name);
+        ILoggerFactory iLoggerFactory = getILoggerFactory(); 
+        return iLoggerFactory.getLogger(getCallingClassName());
     }
 
     private static String getCallingClassName() {
