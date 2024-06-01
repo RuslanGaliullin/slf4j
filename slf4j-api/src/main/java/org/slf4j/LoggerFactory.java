@@ -422,6 +422,26 @@ public final class LoggerFactory {
         return iLoggerFactory.getLogger(name);
     }
 
+    public static Logger getLogger() {
+        ILoggerFactory iLoggerFactory = getILoggerFactory();
+        String name = getCallingClassName();
+        
+        return iLoggerFactory.getLogger(name);
+    }
+
+    private static String getCallingClassName() {
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        
+        // The stack trace elements at index 0 and 1 are getStackTrace() and getCallingClassName() respectively.
+        // Index 2 is getLogger(String name), and index 3 is getLogger() or the method that called getLogger().
+        if (stackTraceElements.length > 3) {
+            StackTraceElement callingElement = stackTraceElements[3];
+            return callingElement.getClassName();
+        }
+        
+        return null;
+    }
+
     /**
      * Return a logger named corresponding to the class passed as parameter,
      * using the statically bound {@link ILoggerFactory} instance.
